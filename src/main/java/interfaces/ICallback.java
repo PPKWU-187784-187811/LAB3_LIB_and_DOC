@@ -7,5 +7,5 @@ import java.util.Optional;
  */
 public interface ICallback {
 
-    Optional<String> getResult(Boolean result);
+    String getResult(Boolean result);
 }
