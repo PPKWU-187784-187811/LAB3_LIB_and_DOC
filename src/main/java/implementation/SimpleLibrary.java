@@ -4,11 +4,9 @@ import interfaces.ICallback;
 import interfaces.ILibrary;
 import utils.Const;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
+import static java.awt.SystemColor.text;
 import static utils.Const.*;
 
 
@@ -19,7 +17,27 @@ public class SimpleLibrary implements ILibrary {
 
     @Override
     public String readFile(String file, ICallback callback) {
-        return null;
+        BufferedReader br = null;
+        String results = null;
+
+        try {
+            br = new BufferedReader(new FileReader(file));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+
+            results = sb.toString();
+        } catch (IOException e) {
+            callback.getResult(Const.FAILURE);
+        }
+
+        callback.getResult(Const.SUCCESS);
+        return results;
     }
 
     @Override
