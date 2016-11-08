@@ -17,21 +17,18 @@ public class SimpleLibrary implements ILibrary {
 
     @Override
     public String readFile(String file, ICallback callback) {
-        BufferedReader br = null;
+        BufferedReader buffer = null;
         String results = null;
+        String line = null;
 
         try {
-            br = new BufferedReader(new FileReader(file));
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
+            buffer = new BufferedReader(new FileReader(file));
+            StringBuilder builder = new StringBuilder();
+            doProgress(callback);
+            while ((line = buffer.readLine()) != null) {
+                builder.append(line + System.lineSeparator());
             }
-
-            results = sb.toString();
+            results = builder.toString();
         } catch (IOException e) {
             callback.getResult(Const.FAILURE);
         }
@@ -44,15 +41,19 @@ public class SimpleLibrary implements ILibrary {
     public void writeFile(String file, String text, ICallback callback) {
         try (PrintWriter printWriter = new PrintWriter(file)) {
             printWriter.write(TEXT_TO_SAVE);
-            for (int index = 0; index < 100; index = index + 10) {
-                callback.getResult(PROGRESS + index + PERCENT);
-                delay(index * 10);
-            }
+            doProgress(callback);
             callback.getResult(Const.SUCCESS);
         } catch (IOException exception) {
             callback.getResult(Const.FAILURE);
         }
 
+    }
+
+    private void doProgress(ICallback callback) {
+        for (int index = 0; index < 100; index = index + 10) {
+            callback.getResult(PROGRESS + index + PERCENT);
+            delay(index * 10);
+        }
     }
 
     private void delay(int miliseconds) {
