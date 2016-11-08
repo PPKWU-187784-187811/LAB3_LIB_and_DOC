@@ -17,4 +17,7 @@ public class Const {
 
     public static final String POSITIVE = "T";
     public static final String NEGATIVE = "N";
+
+    public static final String PROGRESS = "PROGRESS ";
+    public static final String PERCENT = "%";
 }
