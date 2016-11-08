@@ -4,6 +4,8 @@ import interfaces.ICallback;
 import interfaces.ILibrary;
 import utils.Const;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -26,7 +28,7 @@ public class SimpleLibrary implements ILibrary {
             printWriter.write(TEXT_TO_SAVE);
             for (int index = 0; index < 100; index = index + 10) {
                 callback.getResult(PROGRESS + index + PERCENT);
-                delay();
+                delay(index * 10);
             }
             callback.getResult(Const.SUCCESS);
         } catch (IOException exception) {
@@ -35,9 +37,9 @@ public class SimpleLibrary implements ILibrary {
 
     }
 
-    private void delay() {
+    private void delay(int miliseconds) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(miliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
