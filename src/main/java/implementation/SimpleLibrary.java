@@ -40,7 +40,7 @@ public class SimpleLibrary implements ILibrary {
     @Override
     public void writeFile(String file, String text, ICallback callback) {
         try (PrintWriter printWriter = new PrintWriter(file)) {
-            printWriter.write(TEXT_TO_SAVE);
+            printWriter.write(text);
             doProgress(callback);
             callback.getResult(Const.SUCCESS);
         } catch (IOException exception) {
